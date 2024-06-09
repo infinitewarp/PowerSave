@@ -4,15 +4,6 @@ from .. import icons
 from .. import utils
 
 
-def panel_tab_items(self, context) -> typing.List[typing.Tuple[str, str, str, bpy.types.ImagePreview, int]]:
-    powersave = ('POWERSAVE', 'PowerSave', '', icons.id('powersave'), 0)
-    powerlink = ('POWERLINK', 'PowerLink', '', icons.id('powerlink'), 1)
-    powerbackup = ('POWERBACKUP', 'PowerBackup', '', icons.id('powerbackup'), 2)
-    powermanage = ('POWERMANAGE', 'PowerManage', '', icons.id('powermanage'), 3)
-    powerprops = ('POWERPROPS', 'PowerProps', '', icons.id('powerprops'), 4)
-    return [powersave, powerlink, powerbackup, powermanage, powerprops]
-
-
 class PowerSavePrefs(bpy.types.AddonPreferences):
     bl_idname = utils.common.module()
 
@@ -113,13 +104,6 @@ class PowerSavePrefs(bpy.types.AddonPreferences):
         name='PowerSave Name',
         description='The name to use for PowerSave',
         default='',
-        options={'SKIP_SAVE'},
-    )
-
-    panel_tab: bpy.props.EnumProperty(
-        name='Panel Tab',
-        description='Which tab is currently active in the popover',
-        items=panel_tab_items,
         options={'SKIP_SAVE'},
     )
 

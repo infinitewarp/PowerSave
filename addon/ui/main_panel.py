@@ -16,36 +16,7 @@ class PowerSavePanel(bpy.types.Panel):
         layout = self.layout
         column = layout.column()
 
-        if self.is_popover:
-            layout.ui_units_x = prefs.popover_width
-
-            panel_dict = {
-                'POWERSAVE': 'PowerSave',
-                'POWERLINK': 'PowerLink',
-                'POWERBACKUP': 'PowerBackup',
-                'POWERMANAGE': 'PowerManage',
-                'POWERPROPS': 'PowerProps',
-            }
-
-            row = column.row()
-            row.label(text=panel_dict.get(prefs.panel_tab, 'Unknown'))
-            row.prop(prefs, 'panel_tab', expand=True, icon_only=True)
-            column.separator()
-
-        if prefs.panel_tab == 'POWERSAVE' or not self.is_popover:
-            powersave_draw(self, column)
-
-        elif prefs.panel_tab == 'POWERLINK':
-            powerlink_draw(self, column)
-
-        elif prefs.panel_tab == 'POWERBACKUP':
-            powerbackup_draw(self, column)
-
-        elif prefs.panel_tab == 'POWERMANAGE':
-            powermanage_draw(column)
-
-        elif prefs.panel_tab == 'POWERPROPS':
-            powerprops_draw(column)
+        powersave_draw(self, column)
 
 
 def popover(self, context):
@@ -107,67 +78,3 @@ def powersave_draw(self, column: bpy.types.UILayout):
     col.enabled = filepaths.use_auto_save_temporary_files
     col.prop(filepaths, 'auto_save_time')
     box.prop(filepaths, 'save_version')
-
-
-def powerlink_draw(self, column: bpy.types.UILayout):
-    wm = bpy.context.window_manager
-    if hasattr(wm, 'powerlink'):
-        wm.powerlink.draw(self, column)
-
-    else:
-        box = column.box().column()
-        box.label(text='Check out PowerLink!')
-
-        url = 'https://gumroad.com/l/powerlink'
-        utils.ui.draw_op(box, 'Gumroad', 'wm.url_open', {'url': url})
-
-        url = 'https://blendermarket.com/products/powerlink'
-        utils.ui.draw_op(box, 'BlenderMarket', 'wm.url_open', {'url': url})
-
-
-def powerbackup_draw(self, column: bpy.types.UILayout):
-    wm = bpy.context.window_manager
-    if hasattr(wm, 'powerbackup'):
-        wm.powerbackup.draw(self, column)
-
-    else:
-        box = column.box().column()
-        box.label(text='Check out PowerBackup!')
-
-        url = 'https://gumroad.com/l/powerbackup'
-        utils.ui.draw_op(box, 'Gumroad', 'wm.url_open', {'url': url})
-
-        url = 'https://blendermarket.com/products/powerbackup'
-        utils.ui.draw_op(box, 'BlenderMarket', 'wm.url_open', {'url': url})
-
-
-def powermanage_draw(column: bpy.types.UILayout):
-    wm = bpy.context.window_manager
-    if hasattr(wm, 'powermanage'):
-        wm.powermanage.draw_panel(column)
-
-    else:
-        box = column.box().column()
-        box.label(text='Check out PowerManage!')
-
-        url = 'https://gumroad.com/l/powermanage'
-        utils.ui.draw_op(box, 'Gumroad', 'wm.url_open', {'url': url})
-
-        url = 'https://blendermarket.com/products/powermanage'
-        utils.ui.draw_op(box, 'BlenderMarket', 'wm.url_open', {'url': url})
-
-
-def powerprops_draw(column: bpy.types.UILayout):
-    wm = bpy.context.window_manager
-    if hasattr(wm, 'powerprops'):
-        wm.powerprops.draw(column)
-
-    else:
-        box = column.box().column()
-        box.label(text='Check out PowerProps!')
-
-        url = 'https://gumroad.com/l/powerprops'
-        utils.ui.draw_op(box, 'Gumroad', 'wm.url_open', {'url': url})
-
-        url = 'https://blendermarket.com/products/powerprops'
-        utils.ui.draw_op(box, 'BlenderMarket', 'wm.url_open', {'url': url})
